@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">MyThinkerDemo</string>
+    <string name="add">添加patch</string>
+    <string name="cancel">取消patch</string>
+    <string name="show_info">展示信息</string>
+</resources>
