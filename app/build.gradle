@@ -33,6 +33,12 @@ android {
             storeFile file('C:/Users/wjn/Desktop/argorse.keystore')
             storePassword 'argorse'
         }
+        debug{
+            keyAlias 'argorse'
+            keyPassword 'argorse'
+            storeFile file('C:/Users/wjn/Desktop/argorse.keystore')
+            storePassword 'argorse'
+        }
     }
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
@@ -73,20 +79,26 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
-
-
             applicationVariants.all { variant ->
                 variant.outputs.each { output ->
 
                     def outputFile = output.outputFile
                     if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                        // 输出apk名称为Argorsewanglai_1.0_0000.apk
-                        def fileName = "Argorsewanglai_${defaultConfig.versionName}${variant.productFlavors[0].name}.apk"
-                        output.outputFile = new File(outputFile.parent, fileName)
+                        def fileName
+                        if (variant.buildType.name == 'release') {
+                            // 输出apk名称为Argorsewanglai_1.0_0000.apk
+                             fileName = "Argorsewanglai_${defaultConfig.versionName}${variant.productFlavors[0].name}.apk"
+                        } else if (variant.buildType.name == 'debug') {
+                            fileName = "${project.name}-${variant.productFlavors[0].name}-debug.apk"
+                        }
+                          output.outputFile = new File(outputFile.parent, fileName)
                     }
                 }
             }
 
+        }
+        debug{
+            signingConfig signingConfigs.debug
 
         }
     }
@@ -126,7 +138,7 @@ ext {
     tinkerApplyResourcePath = "${bakPath}/app-release-0613-11-33-20-R.txt"
 
     //only use for build all flavor, if not, just ignore this field
-    tinkerBuildFlavorDirectory = "${bakPath}/app-0613-12-31-44"
+    tinkerBuildFlavorDirectory = "${bakPath}/app-0613-17-09-15"
 
 }
 
